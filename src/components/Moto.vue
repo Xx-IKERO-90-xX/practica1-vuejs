@@ -5,11 +5,15 @@
     <p>Fabricante: {{ fabricante }}</p>
     <p>Color: {{ color[0] }}</p>
     <p>Precio: {{ precio }}</p>
-    <p>Potencia: {{ potencia }}</p>
+    <p v-if="potencia >= 70 && potencia <= 500">Potencia: {{ potencia }}</p>
+    <p v-else>Potencia: <span style="color: red; font-weight: bold;">Potencia Invalido</span></p>
     <p>{{ mensaje.title }} - {{ mensaje.text }}</p>
     <RuedaMoto />
+    <button @click="upPower()">Aumentar Potencia</button>
+    <button @click="downPower()">Disminuir Potencia</button>
 </template>
 <script>
+import {ref} from "vue";
 import RuedaMoto from "./RuedaMoto.vue"
 export default {
     components: {
@@ -20,7 +24,15 @@ export default {
         const fabricante = "HONDA";
         const color = ["red", "blue", "green", "orange", "yellow", "cyan", "white", "black", "grey", "pink", "purple"];
         const precio = 20900.00;
-        const potencia = 445;
+        const potencia = ref(445);
+        const upPower = ()=> {
+            console.log("Aumentando potencia...");
+            potencia.value = potencia.value + 1;   
+        }
+        const downPower = () => {
+            console.log("Bajando potencia...");
+            potencia.value = potencia.value - 1;
+        }
         const mensaje = {
             title: "Moto Fireblade",
             text: "CBR1000RR-R"
@@ -31,7 +43,9 @@ export default {
             color,
             precio,
             potencia,
-            mensaje
+            mensaje,
+            upPower,
+            downPower
         }
     }
 }

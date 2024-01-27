@@ -4,12 +4,16 @@
     <p>Modelo: {{ model }}</p>
     <p>Color: {{ color[1] }}</p>
     <p>Precio: {{ price }}</p>
-    <p>Potencia: {{ power }}</p>
+    <p v-if="power <= 500 && power >= 70">Potencia: {{ power }}</p>
+    <p v-else>Potencia: <span style="color: red; font-weight: bold;">Valor Invalido</span></p>
     <p>{{ mensaje.title }} - {{ mensaje.text }}</p>
     <RuedaCoche />
+    <button @click="upPower()">Aumentar Potencia</button>
+    <button @click="downPower()">Bajando Potencia</button>
 </template>
 <script>
 import RuedaCoche from "./RuedaCoche.vue";
+import { ref } from "vue";
 export default {
     components: {
         RuedaCoche
@@ -19,7 +23,15 @@ export default {
         const model = "Bentayga";
         const color = ["Silver Frost", "Silver Storm", "Magnetic"];
         const price = 219819.00;
-        const power = 449;
+        let power = ref(442);
+        const upPower = () => {
+            console.log("Aumentando precio...");
+            power.value = power.value + 1;
+        };
+        const downPower = () => {
+            console.log("Bajando precio...");
+            power.value = power.value - 1;
+        };
         const mensaje = {
             title: "sanpitopato",
             text: "citroen"
@@ -30,7 +42,9 @@ export default {
             color,
             price,
             power,
-            mensaje
+            mensaje,
+            upPower,
+            downPower
         }
     }
 }
